@@ -17,7 +17,9 @@ app.use('/', require('./home.js'));
 
 app.use('/signup', require('./signup.js'));
 
-// app.use('/login', require('./login.js'));
+app.get('/login', function(req, res){
+    res.render('login')
+});
 
 app.post('/addUser', function(req,res,next) {
 
@@ -33,10 +35,7 @@ app.post('/addUser', function(req,res,next) {
                 next(err);
             }
         });
-
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('<script>setTimeout(function() {window.location.href = "/";})');
-    res.end();
+    res.render('/login');
 });
 
 app.use(function(req,res){
