@@ -11,7 +11,6 @@ function getBiodiversity(res, mysql, context, complete){
 	});
 }
 
-
 router.get('/', function(req, res){
 	var callbackCount = 0;
 	var context = {};
