@@ -1,104 +1,152 @@
-module.exports = function(){
-    	var express = require('express');
-    	var router = express.Router();
-	var expressValidator = require('express-validator');
-	
-function getBiodiversity(res, mysql, context, complete){
-	mysql.pool.query("SELECT id, type FROM biodiversity", function(err, results, fields) {
-		if (err) throw err;
-		context.biotypes = results;
-		complete();
-	});
-}
+{{> header }}
 
-router.get('/', function(req, res){
-	var callbackCount = 0;
-	var context = {};
-	var mysql = req.app.get('mysql');
-	getBiodiversity(res, mysql, context, complete);
-	function complete() {
-		callbackCount++;
-		if (callbackCount >= 1){
-			res.render('signup', context);
-		}
-	}
-});
+<div class="container" margin="25px">
+	<h1> {{title}} </h1>
+	<h1><font color="brown"> Bloom, Terra Sign Up </h1>
+	<font color="black">
+	{{#if errors}}
+		{{#each errors}}
+			<div class="alert alert-danger">
+				{{this.msg}}
+			</div>
+		{{/each}}
+	{{/if}}
+	<form id="signup" method="POST" action="/signup">
+	  <div class="form-row">
+    	    <div class="form-group col-md-6">
+      		<label for="inputFName">First Name*</label>
+      		<input type="text" class="form-control" id="inputFName" name="fname" placeholder="First Name">
+    	    </div>
+    	    <div class="form-group col-md-6">
+      		<label for="inputLName">Last Name*</label>
+      		<input type="text" class="form-control" id="inputLName" name="lname" placeholder="Last Name">
+    	    </div>
+  	  </div>
+	  <div class="form-row"> 
+    	    <div class="form-group col-md-6">
+      		<label for="inputEmail">Email* (you will use this to login)</label>
+      		<input type="email" class="form-control" id="inputEmail" name="useremail" placeholder="Email">
+    	    </div>
+	    <div class="form-group col-md-6">
+		<label for="inputPhone">Phone</label>
+		<input type="text" class="form-control" id="inputPhone" name="phone" placeholder="Phone">
+	    </div>
+	  </div>
+	  
+  	  <div class="form-group">
+    	    <label for="inputAddress">Address*</label>
+    	    <input type="text" class="form-control" id="inputAddress" name="street" placeholder="1234 Main St">
+  	  </div>
+  	  <div class="form-group">
+    	    <label for="inputAddress2">Address 2</label>
+    	    <input type="text" class="form-control" id="inputAddress2" name="street2" placeholder="Apartment, studio, or floor">
+  	  </div>
+  	  <div class="form-row">
+    	    <div class="form-group col-md-6">
+      		<label for="inputCity">City*</label>
+     		 <input type="text" class="form-control" id="inputCity" name="city" placeholder="City">
+    	    </div>
+    	    <div class="form-group col-md-4">
+      		<label for="inputState">State</label>
+      		<select id="inputState" class="form-control" name="state">
+        		<option value="" selected="selected" disabled="disabled">Choose...</option>
+        		<option>...</option>
+			<option value="AL">Alabama</option>
+			<option value="AK">Alaska</option>
+			<option value="AZ">Arizona</option>
+			<option value="AR">Arkansas</option>
+			<option value="CA">California</option>
+			<option value="CO">Colorado</option>
+			<option value="CT">Connecticut</option>
+			<option value="DE">Delaware</option>
+			<option value="DC">District Of Columbia</option>
+			<option value="FL">Florida</option>
+			<option value="GA">Georgia</option>
+			<option value="HI">Hawaii</option>
+			<option value="ID">Idaho</option>
+			<option value="IL">Illinois</option>
+			<option value="IN">Indiana</option>
+			<option value="IA">Iowa</option>
+			<option value="KS">Kansas</option>
+			<option value="KY">Kentucky</option>
+			<option value="LA">Louisiana</option>
+			<option value="ME">Maine</option>
+			<option value="MD">Maryland</option>
+			<option value="MA">Massachusetts</option>
+			<option value="MI">Michigan</option>
+			<option value="MN">Minnesota</option>
+			<option value="MS">Mississippi</option>
+			<option value="MO">Missouri</option>
+			<option value="MT">Montana</option>
+			<option value="NE">Nebraska</option>
+			<option value="NV">Nevada</option>
+			<option value="NH">New Hampshire</option>
+			<option value="NJ">New Jersey</option>
+			<option value="NM">New Mexico</option>
+			<option value="NY">New York</option>
+			<option value="NC">North Carolina</option>
+			<option value="ND">North Dakota</option>
+			<option value="OH">Ohio</option>
+			<option value="OK">Oklahoma</option>
+			<option value="OR">Oregon</option>
+			<option value="PA">Pennsylvania</option>
+			<option value="RI">Rhode Island</option>
+			<option value="SC">South Carolina</option>
+			<option value="SD">South Dakota</option>
+			<option value="TN">Tennessee</option>
+			<option value="TX">Texas</option>
+			<option value="UT">Utah</option>
+			<option value="VT">Vermont</option>
+			<option value="VA">Virginia</option>
+			<option value="WA">Washington</option>
+			<option value="WV">West Virginia</option>
+			<option value="WI">Wisconsin</option>
+			<option value="WY">Wyoming</option>
+      		</select>
+    	    </div>
+    	    <div class="form-group col-md-2">
+      		<label for="inputZip">Zip Code</label>
+      		<input type="text" class="form-control" id="inputZip" name="zip" placeholder="Zip Code">
+    	    </div>
+  	  </div>	
+  	  <div class="form-group">
+    	    <label for="inputCountry">Country*</label>
+    	    <input type="text" class="form-control" id="inputCountry" name="country" placeholder="Country">
+  	  </div>
+  	  <div class="form-row">
+    	    <div class="form-group col-md-6">
+      		<label for="inputSkills">Skills</label>
+     		 <input type="text" class="form-control" id="inputSkills" name="skills" placeholder="Enter Relevant Skills Here (i.e. Biologist, Botanist, etc)">
+    	    </div>
+	    <div class="form-group col-md-6">
+		<label for="inputBioFav">Favorite Biodiversity</label>
+		<select class="form-control" id="inputBioFav" name="bio">
+			<option value="select" selected="selected" disabled="disabled"> Choose...</option>
+			{{#each biotypes}}
+			<option value="{{id}}">{{type}}</option>
+			{{/each}}
+		</select>
+	    </div>
+	  </div>
+       <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Password*</label>
+            <input type="password" class="form-control" id="inputPassword4" name="password" placeholder="Password">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="verifyPassword">Verify Password*</label>
+            <input type="password" class="form-control" id="verifyPassword" name="verpassword" placeholder="Password">
+          </div>
+      </div>
+      <div class="form-row">
+     	  <div>
+	    <p>Passwords must contain at least one lowercase character, one uppercase character, one number, and one special symbol </p>
+          </div>
+     </div>
+     <div>
+	<p>* denotes required field</p>
+  	<button type="submit" class="btn btn-primary">Sign Up</button>
+    </div>
+    </form>
+</div>
 
-router.post('/', function(req, res){
-	var context = {};
-	var mysql = req.app.get('mysql');
-	// set blank fields to null for proper database insertion	
-	const zip = req.body.zip;
-	const phone = req.body.phone;
-	const street2 = req.body.street2;
-	const skills = req.body.skills;
-	const state = req.body.state;
-	const bio = req.body.bio;
-	if (street2.length == 0)
-		req.body.street2 = null;
-	if (phone.length == 0)
-		req.body.phone = null;
-	if (zip.length == 0)
-		req.body.zip = null;
-	if (state == "")
-		req.body.skills;
-	if (state == "...")
-		req.body.state = null;
-	if (skills.length == 0)
-		req.body.skills = null;
-	if (bio == "")
-		req.body.bio = null;
-	
-	// validate form fields
-	const password = req.body.password;
-	req.checkBody('fname', 'First name field cannot be empty.').notEmpty();
-	req.checkBody('lname', 'Last name field cannot be empty.').notEmpty();
-	req.checkBody('useremail', 'Email field cannot be empty.').notEmpty();
-	req.checkBody('street', 'Address field cannot be empty.').notEmpty();
-	req.checkBody('city', 'City field cannot be empty.').notEmpty();
-	req.checkBody('country', 'Country field cannot be empty.').notEmpty();
-	req.checkBody('username', 'Username field cannot be empty.').notEmpty();
-	req.checkBody('useremail', 'The email you entered is invalid, please try again.').isEmail();
-	req.checkBody('useremail', 'Email address must be between 4 and 50 characters long. Please try again.').len(4, 50);
-	req.checkBody('password', 'Password must have at least one lowercase character, one uppercase character, one number, and one special character.').matches(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?@$%^&*!-]).{8,}$/);
-	req.checkBody('password', 'Passwords must be between 8 and 20 characters long.').len(8, 20);
-	req.checkBody('verpassword', 'Passwords do not match. Please try again.').equals(password);
-	const errors = req.validationErrors();
-	
-	// if errors make them re-enter the information
-	if (errors) {
-		console.log(`errors: ${JSON.stringify(errors)}`);
-		res.render('signup', {
-			title: 'Registration Error',
-			errors: errors
-		});
-	}
-	
-	else {
-		mysql.pool.query("INSERT INTO users (`first_name`, `last_name`, `street`, `street2`, `city`, `state`, `zip`, " +
-        	"`country`, `phone`,`email`,`skills`,`bio_fav`,`username`,`password`) " +
-        	"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        	[req.body.fname, req.body.lname, req.body.street, req.body.street2, req.body.city, req.body.state,
-            	req.body.zip, req.body.country, req.body.phone, req.body.useremail,req.body.skills, req.body.bio,
-   		req.body.username, req.body.password],function(error, results, fields) {
-			if (error) {
-				var msg = JSON.stringify(error);
-				var read_msg = JSON.parse(msg);
-				var err_msg = read_msg.sqlMessage;
-				res.set('content-Type', 'text/html');
-				res.write("<h1>Something has gone wrong.</br></h1><p>You received the following error message:</p></br>");
-				res.write(err_msg);
-				res.write("</br><p>To return to the Sign Up page click <a href='signup'>here</a></p>");
-				res.end();
-		    } else {
-			context.sucess = "success"
-			res.render('login', {
-				title: 'Congrats! You have successfully created an account.'
-		   });
-		  }
-	});
-     }	
-});
-
-return router;
-} ();
