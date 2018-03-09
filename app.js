@@ -13,11 +13,17 @@ app.set('view engine', 'handlebars');
 app.set('port', process.argv[2]);
 app.set('mysql', mysql);
 
+// set up router
 app.use('/', require('./home.js'));
 
 app.use('/signup', require('./signup.js'));
 
 app.use('/login', require('./login.js'));
+
+app.use('/forgotPassword', require('./forgotPassword.js'));
+
+app.use('/profile', require('./profile'));
+
 
 app.use(function(req,res){
   res.status(404);
