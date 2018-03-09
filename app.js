@@ -17,18 +17,39 @@ app.use('/', require('./home.js'));
 
 app.use('/signup', require('./signup.js'));
 
+app.get('/login', function(req, res){
+    res.render('login')
+});
+
+app.post('/addUser', function(req,res,next) {
+
+    mysql.pool.query("INSERT INTO users (`first_name`, `last_name`, `street`, `street2`, `city`, `state`, `zip`, " +
+        "`country`, `phone`,`email`,`skills`,`bio_fav`, `logins`, `username`, `password`) " +
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [req.body.fname, req.body.lname, req.body.street,req.body.street1, req.body.city, req.body.state,
+            req.body.zip, req.body.country, req.body.phone, req.body.useremail,req.body.skills, req.body.bio, 0,
+            req.body.username, req.body.password],
+
+        function (err,result){
+            if(err){
+                next(err);
+            }
+        });
+    res.render('/login');
+});
+
 app.use(function(req,res){
   res.status(404);
   res.render('404');
 });
 
-app.use(function(err, req, res, next){
-  console.error(err.stack);
-  res.status(500);
-  res.render('500');
+app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500);
+    res.render('500');
 });
 
-app.listen(app.get('port'), function(){
-  console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
+app.listen(app.get('port'), function() {
+    console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
 });
 
