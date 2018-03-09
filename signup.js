@@ -26,8 +26,30 @@ router.get('/', function(req, res){
 
 router.post('/', function(req, res){
 	var context = {};
-	console.log(req.body.useremail);
-	console.log(req.body.bio);
+	var mysql = req.app.get('mysql');
+	// set blank fields to null for proper database insertion	
+	const zip = req.body.zip;
+	const phone = req.body.phone;
+	const street2 = req.body.street2;
+	const skills = req.body.skills;
+	const state = req.body.state;
+	const bio = req.body.bio;
+	if (street2.length == 0)
+		req.body.street2 = null;
+	if (phone.length == 0)
+		req.body.phone = null;
+	if (zip.length == 0)
+		req.body.zip = null;
+	if (state == "")
+		req.body.skills;
+	if (state == "...")
+		req.body.state = null;
+	if (skills.length == 0)
+		req.body.skills = null;
+	if (bio == "")
+		req.body.bio = null;
+	
+	// validate form fields
 	const password = req.body.password;
 	req.checkBody('fname', 'First name field cannot be empty.').notEmpty();
 	req.checkBody('lname', 'Last name field cannot be empty.').notEmpty();
@@ -36,7 +58,6 @@ router.post('/', function(req, res){
 	req.checkBody('city', 'City field cannot be empty.').notEmpty();
 	req.checkBody('country', 'Country field cannot be empty.').notEmpty();
 	req.checkBody('username', 'Username field cannot be empty.').notEmpty();
-
 	req.checkBody('useremail', 'The email you entered is invalid, please try again.').isEmail();
 	req.checkBody('useremail', 'Email address must be between 4 and 50 characters long. Please try again.').len(4, 50);
 	req.checkBody('password', 'Password must have at least one lowercase character, one uppercase character, one number, and one special character.').matches(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?@$%^&*!-]).{8,}$/);
@@ -44,6 +65,7 @@ router.post('/', function(req, res){
 	req.checkBody('verpassword', 'Passwords do not match. Please try again.').equals(password);
 	const errors = req.validationErrors();
 	
+	// if errors make them re-enter the information
 	if (errors) {
 		console.log(`errors: ${JSON.stringify(errors)}`);
 		res.render('signup', {
@@ -52,6 +74,30 @@ router.post('/', function(req, res){
 		});
 	}
 	
+	else {
+		mysql.pool.query("INSERT INTO users (`first_name`, `last_name`, `street`, `street2`, `city`, `state`, `zip`, " +
+        	"`country`, `phone`,`email`,`skills`,`bio_fav`,`username`,`password`) " +
+        	"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        	[req.body.fname, req.body.lname, req.body.street, req.body.street2, req.body.city, req.body.state,
+            	req.body.zip, req.body.country, req.body.phone, req.body.useremail,req.body.skills, req.body.bio,
+   		req.body.username, req.body.password],function(error, results, fields) {
+			if (error) {
+				var msg = JSON.stringify(error);
+				var read_msg = JSON.parse(msg);
+				var err_msg = read_msg.sqlMessage;
+				res.set('content-Type', 'text/html');
+				res.write("<h1>Something has gone wrong.</br></h1><p>You received the following error message:</p></br>");
+				res.write(err_msg);
+				res.write("</br><p>To return to the Sign Up page click <a href='signup'>here</a></p>");
+				res.end();
+		    } else {
+			context.sucess = "success"
+			res.render('login', {
+				title: 'Congrats! You have successfully created an account.'
+		   });
+		  }
+	});
+     }	
 });
 
 return router;
