@@ -135,8 +135,3 @@ router.post('/', function(req, res){
 });
 
 return router;
-<<<<<<< Updated upstream
-} ();
-=======
-} ();
->>>>>>> Stashed changes
