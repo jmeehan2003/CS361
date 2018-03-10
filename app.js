@@ -24,6 +24,16 @@ app.use('/forgotPassword', require('./forgotPassword.js'));
 
 app.use('/profile', require('./profile'));
 
+app.use('/aboutus', require('./aboutus'));
+
+app.use('/contactus', require('./contactus'));
+
+app.use('/news', require('./news'));
+
+app.use('/trending', require('./trending'));
+
+app.use('/map', require('./map'));
+
 
 app.use(function(req,res){
   res.status(404);
