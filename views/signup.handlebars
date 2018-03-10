@@ -1,16 +1,16 @@
 {{> header }}
 
 <div class="container" margin="25px">
-	<h1> {{title}} </h1>
+	<h1><font color="red"> {{title}} </h1>
 	<h1><font color="brown"> Bloom, Terra Sign Up </h1>
-	<font color="black">
 	{{#if errors}}
 		{{#each errors}}
 			<div class="alert alert-danger">
-				{{this.msg}}
+			<p><font color="red">	{{this.msg}}	</p>
 			</div>
 		{{/each}}
 	{{/if}}
+	<font color="black">
 	<form id="signup" method="POST" action="/signup">
 	  <div class="form-row">
     	    <div class="form-group col-md-6">
@@ -140,7 +140,7 @@
       </div>
       <div class="form-row">
      	  <div>
-	    <p>Passwords must contain at least one lowercase character, one uppercase character, one number, and one special symbol </p>
+	    <p>Passwords must be at least 8 characters and  contain at least one lowercase letter, one uppercase letter, one number, and one special symbol </p>
           </div>
      </div>
      <div>
@@ -149,4 +149,3 @@
     </div>
     </form>
 </div>
-
