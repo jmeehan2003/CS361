@@ -25,7 +25,6 @@ router.get('/', function(req, res){
 });
 
 router.post('/', function(req, res){
-	var context = {};
 	var mysql = req.app.get('mysql');
 	// set blank fields to null for proper database insertion	
 	const zip = req.body.zip;
@@ -67,11 +66,24 @@ router.post('/', function(req, res){
 	// if errors make them re-enter the information
 	if (errors) {
 		console.log(`errors: ${JSON.stringify(errors)}`);
-		res.render('signup', {
-			title: 'Registration Error',
-			errors: errors
-		});
+		var context = {};
+		var callbackCount = 0;
+		getBiodiversity(res, mysql, context, complete);
+		function complete() {
+		callbackCount++;
+		if (callbackCount >= 1){
+			context.title = 'Registration Error';
+			context.errors = errors;
+			res.render('signup', 
+			//title: 'Registration Eriror',
+			//errors: errors,
+			context
+			
+			
+		);	
+	}	
 	}
+}
 	
 	else {
 		mysql.pool.query("INSERT INTO users (`first_name`, `last_name`, `street`, `street2`, `city`, `state`, `zip`, " +
@@ -90,7 +102,6 @@ router.post('/', function(req, res){
 				res.write("</br><p>To return to the Sign Up page click <a href='signup'>here</a></p>");
 				res.end();
 		    } else {
-			context.sucess = "success"
 			res.render('login', {
 				loginMessage: 'Congrats! You have successfully created an account.'
 		   });
@@ -101,4 +112,3 @@ router.post('/', function(req, res){
 
 return router;
 } ();
-
