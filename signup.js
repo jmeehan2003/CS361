@@ -57,7 +57,6 @@ router.post('/', function(req, res){
 	req.checkBody('street', 'Address field cannot be empty.').notEmpty();
 	req.checkBody('city', 'City field cannot be empty.').notEmpty();
 	req.checkBody('country', 'Country field cannot be empty.').notEmpty();
-	req.checkBody('username', 'Username field cannot be empty.').notEmpty();
 	req.checkBody('useremail', 'The email you entered is invalid, please try again.').isEmail();
 	req.checkBody('useremail', 'Email address must be between 4 and 50 characters long. Please try again.').len(4, 50);
 	req.checkBody('password', 'Password must have at least one lowercase character, one uppercase character, one number, and one special character.').matches(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?@$%^&*!-]).{8,}$/);
@@ -76,11 +75,11 @@ router.post('/', function(req, res){
 	
 	else {
 		mysql.pool.query("INSERT INTO users (`first_name`, `last_name`, `street`, `street2`, `city`, `state`, `zip`, " +
-        	"`country`, `phone`,`email`,`skills`,`bio_fav`,`username`,`password`) " +
-        	"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        	"`country`, `phone`,`email`,`skills`,`bio_fav`,`password`) " +
+        	"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
         	[req.body.fname, req.body.lname, req.body.street, req.body.street2, req.body.city, req.body.state,
             	req.body.zip, req.body.country, req.body.phone, req.body.useremail,req.body.skills, req.body.bio,
-   		req.body.username, req.body.password],function(error, results, fields) {
+   		req.body.password],function(error, results, fields) {
 			if (error) {
 				var msg = JSON.stringify(error);
 				var read_msg = JSON.parse(msg);
@@ -93,7 +92,7 @@ router.post('/', function(req, res){
 		    } else {
 			context.sucess = "success"
 			res.render('login', {
-				title: 'Congrats! You have successfully created an account.'
+				loginMessage: 'Congrats! You have successfully created an account.'
 		   });
 		  }
 	});
@@ -102,3 +101,4 @@ router.post('/', function(req, res){
 
 return router;
 } ();
+
