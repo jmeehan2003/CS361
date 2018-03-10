@@ -80,24 +80,20 @@ router.post('/', function(req, res){
 			context
 			
 			
-		);	
-	}	
+			);	
+		}	
 	}
 }
 	
 	else {
 		var sameUser = false;
-		mysql.pool.query("SELECT email FROM users",function(error, results, fields) {
+		mysql.pool.query("SELECT LOWER(email) FROM users WHERE email = ?", req.body.useremail.toLowerCase() ,function(error, results, fields) {
 			var allEmails = []
 			allEmails = results;
 			console.log(allEmails);
-			for (var i = allEmails.length - 1; i >= 0; i--) {
-				if (allEmails[i].email.toLowerCase().includes(req.body.useremail.toLowerCase())){
-					sameUser = true;
-					console.log("same");
-					
-					
-				}
+			if (allEmails != null){
+				sameUser = true;
+				console.log(sameUser);
 			}
 		});
 		
@@ -135,3 +131,5 @@ router.post('/', function(req, res){
 });
 
 return router;
+} ();
+
