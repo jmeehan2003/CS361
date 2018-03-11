@@ -28,7 +28,7 @@ function validateAgainstDB(email, pswd, mySql, res, callback) {
         if((results[0].password == pswd) && (results[0].logins < 3)){
           trycount = results[0].logins;
           if(trycount>=3){
-            res.render('login', { loginMessage: 'Account has been locked. Contact site administator.'});
+            res.render('login', { loginMessage: 'Account has been locked. Contact site administrator.'});
           } else {
             var sql = "UPDATE users set logins =0 WHERE email = '" + results[0].email + "'";
             mySql.pool.query(sql, function (error, result) {
@@ -49,14 +49,14 @@ function validateAgainstDB(email, pswd, mySql, res, callback) {
           });
         
           if(trycount>=3){
-            res.render('login', { loginMessage: 'Account has been locked. Contact site administator.'});
+            res.render('login', { errorMessage: 'Account has been locked. Contact site administator.'});
           } else {
-          res.render('login', { loginMessage: 'Wrong password'});
+          res.render('login', { errorMessage: 'Wrong password'});
           }
         }
       }
       else{
-        res.render('login', { loginMessage: 'Email does not exist'});
+        res.render('login', { errorMessage: 'Email does not exist'});
       }
     }
   });
