@@ -69,6 +69,7 @@ router.get('/', function(req, res, next){
 router.post('/', function(req, res) {
   loginMessage = '';
   var errors = validateLogin(req.body.email, req.body.password,res);
+  if(errors.length == 0) {
   var mysql = req.app.get('mysql');
   validateAgainstDB(req.body.email, req.body.password, mysql, res, function (dbErrors, user) {
     errors = errors.concat(dbErrors);
@@ -81,6 +82,17 @@ router.post('/', function(req, res) {
      res.render('login', {errors: errors});
     }
   });
+}
+  else {
+	for (i = 0; i < errors.length; i++)
+	{
+		loginMessage += errors[i].toString();
+	}
+	res.render('login', {
+			loginMessage: loginMessage
+		});
+  }
+ 
 });
 
 module.exports = router;
