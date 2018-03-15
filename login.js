@@ -66,7 +66,7 @@ router.get('/', function(req, res, next){
     res.render('login');
 });
 
-router.post('/', function(req, res) {
+/*router.post('/', function(req, res) {
   loginMessage = '';
   var errors = validateLogin(req.body.email, req.body.password,res);
   if(errors.length == 0) {
@@ -74,9 +74,11 @@ router.post('/', function(req, res) {
   validateAgainstDB(req.body.email, req.body.password, mysql, res, function (dbErrors, user) {
     errors = errors.concat(dbErrors);
     if (errors.length == 0) {
+      var context = {};
       req.session.name = user.name;
       req.session.email = user.email;
-      res.redirect('/profile');
+      context.email = req.body.email 
+      res.render('/profile', context);
     }
     else {
      res.render('login', {errors: errors});
@@ -93,12 +95,10 @@ router.post('/', function(req, res) {
 		});
   }
  
-});
+});*/
 
 module.exports = router;
 module.exports.validateLogin = validateLogin;
 module.exports.validateAgainstDB = validateAgainstDB;
-
-
 
 
