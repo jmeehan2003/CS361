@@ -37,12 +37,13 @@ function validateAgainstDB(email, pswd, mySql, res, callback) {
               console.log(result.affectedRows + " record(s) updated - try count " + trycount);
             });
 	 const myemail = email;
-      	console.log("email in post " + myemail);
       	callbackCount = 0;
       	var context = {};
-      	getUserData(res, mySql, context, email, complete); function complete() {
+      	getUserData(res, mySql, context, email, complete); 
+	getUserBlooms(res, mySql, context, email, complete);
+	function complete() {
 	callbackCount++;
-	if (callbackCount >= 1) {
+	if (callbackCount >= 2) {
 		console.log("Sending to profile page");
 	      res.render('profile', context);
 	}
@@ -76,11 +77,9 @@ function validateAgainstDB(email, pswd, mySql, res, callback) {
 }
 
 function getUserData(res, mysql, context, key, complete) {
-	console.log("Inside user data function");
 	var sql = "SELECT first_name, last_name, email, skills, bio_fav FROM users WHERE users.email = ?";
 	console.log(key);
 	var key = [key];  
-	console.log("still alive");
 	mysql.pool.query(sql, key, function(error, results, fields) {
 		if (error) {
 			res.write(JSON.stringify(error));
@@ -94,6 +93,22 @@ function getUserData(res, mysql, context, key, complete) {
 }
 
 
+function getUserBlooms(res, mysql, context, key, complete) {
+	var sql = "SELECT name, details, DATE_FORMAT(date, '%m/%d/%Y') AS date, biodiversity.type AS biotype FROM blooms INNER JOIN biodiversity ON blooms.biotype = biodiversity.id INNER JOIN users ON blooms.userid = users.id WHERE users.email = ?";
+	console.log(key);
+	var key = [key];  
+	mysql.pool.query(sql, key, function(error, results, fields) {
+		if (error) {
+			res.write(JSON.stringify(error));
+			res.end();
+		}
+		console.log("results length : " + results.length);
+		context.bloom = results;
+		console.log(context);
+		console.log("completed user blooms query");
+		complete();
+		});
+}
 router.get('/', function(req, res, next){
     res.render('login');
 });
@@ -113,9 +128,11 @@ router.post('/', function(req, res) {
       console.log("email in post " + myemail);
       callbackCount = 0;
       var context = {};
-      getUserData(res, mysql, context, email, complete); function complete() {
+      getUserData(res, mysql, context, email, complete); 
+      getUserBlooms(res, mysql, context, email, complete);
+      function complete() {
 	callbackCount++;
-	if (callbackCount >= 1) {
+	if (callbackCount >= 2) {
 		console.log("Sending to profile page");
 	      res.render('profile', context);
 	}
@@ -161,4 +178,3 @@ res.render('profile', context);
 
 return router;
 } ();*/
-

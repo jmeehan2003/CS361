@@ -18,6 +18,12 @@ app.use('/', require('./home.js'));
 
 app.use('/signup', require('./signup.js'));
 
+app.use('/search', require('./search.js'));
+
+app.use('/user', require('./user.js'));
+
+app.use('/bloom', require('./bloom.js'));
+
 app.use('/login', require('./login.js'));
 
 app.use('/forgotPassword', require('./forgotPassword.js'));
