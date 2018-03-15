@@ -25,7 +25,6 @@ router.get('/', function(req, res){
 });
 
 router.post('/', function(req, res){
-	var context = {};
 	var mysql = req.app.get('mysql');
 	// set blank fields to null for proper database insertion	
 	const zip = req.body.zip;
@@ -67,38 +66,82 @@ router.post('/', function(req, res){
 	// if errors make them re-enter the information
 	if (errors) {
 		console.log(`errors: ${JSON.stringify(errors)}`);
-		res.render('signup', {
-			title: 'Registration Error',
-			errors: errors
-		});
+		var context = {};
+		var callbackCount = 0;
+		getBiodiversity(res, mysql, context, complete);
+		function complete() {
+		callbackCount++;
+		if (callbackCount >= 1){
+			context.title = 'Registration Error';
+			context.errors = errors;
+			res.render('signup', 
+			//title: 'Registration Eriror',
+			//errors: errors,
+			context
+			
+			
+			);	
+		}	
 	}
+}
 	
 	else {
-		mysql.pool.query("INSERT INTO users (`first_name`, `last_name`, `street`, `street2`, `city`, `state`, `zip`, " +
-        	"`country`, `phone`,`email`,`skills`,`bio_fav`,`password`) " +
-        	"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        	[req.body.fname, req.body.lname, req.body.street, req.body.street2, req.body.city, req.body.state,
-            	req.body.zip, req.body.country, req.body.phone, req.body.useremail,req.body.skills, req.body.bio,
-   		req.body.password],function(error, results, fields) {
-			if (error) {
-				var msg = JSON.stringify(error);
-				var read_msg = JSON.parse(msg);
-				var err_msg = read_msg.sqlMessage;
-				res.set('content-Type', 'text/html');
-				res.write("<h1>Something has gone wrong.</br></h1><p>You received the following error message:</p></br>");
-				res.write(err_msg);
-				res.write("</br><p>To return to the Sign Up page click <a href='signup'>here</a></p>");
-				res.end();
-		    } else {
-			context.sucess = "success"
-			res.render('login', {
-				loginMessage: 'Congrats! You have successfully created an account.'
-		   });
-		  }
-	});
-     }	
+		var sameUser = false;
+		mysql.pool.query("SELECT LOWER(email) FROM users WHERE email = ?", req.body.useremail.toLowerCase() ,function(error, results, fields) {
+			var allEmails = []
+			allEmails = results;
+			console.log(allEmails.length);
+			console.log(allEmails);
+			var callbackCount = 0;
+			if (allEmails.length > 0){
+				sameUser = true;
+				console.log(sameUser);
+				complete();
+			}
+			else
+				complete();
+			
+			function complete() {
+				callbackCount++;
+				if (callbackCount >= 1) {
+					if (sameUser)  { 
+						res.render('login', { 
+						errorMessage: "The email you entered already exists in the database.  Please login or select the forgot password link." 
+						}); 
+					}
+		
+					else {
+						mysql.pool.query("INSERT INTO users (`first_name`, `last_name`, `street`, `street2`, `city`, `state`, `zip`, " +
+	        				"`country`, `phone`,`email`,`skills`,`bio_fav`,`password`) " +
+	        				"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+	        				[req.body.fname, req.body.lname, req.body.street, req.body.street2, req.body.city, req.body.state,
+	            				req.body.zip, req.body.country, req.body.phone, req.body.useremail,req.body.skills, req.body.bio,
+		   				req.body.password],function(error, results, fields) {
+						if (error) {
+							var msg = JSON.stringify(error);
+							var read_msg = JSON.parse(msg);
+							var err_msg = read_msg.sqlMessage;
+							res.set('content-Type', 'text/html');
+							res.write("<h1>Something has gone wrong.</br></h1><p>You received the following error message:</p></br>");
+							res.write(err_msg);
+							res.write("</br><p>To return to the Sign Up page click <a href='signup'>here</a></p>");
+							res.end();
+			    			} 
+					
+						else {
+							res.render('login', {
+							loginMessage: 'Congrats! You have successfully created an account.'
+			   				});
+			  			}
+						});
+     					}											
+				}
+			}
+		});
+		
+		console.log(sameUser);
+ }
 });
 
 return router;
 } ();
-

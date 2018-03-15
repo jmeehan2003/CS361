@@ -1,3 +1,4 @@
+
 {{> header }}
 
 
@@ -76,3 +77,78 @@ $(".btn-pref .btn").click(function () {
 });
 });
 </script>
+=======
+{{> header }}
+
+
+<div class="container">
+<div class="row">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 >User Profile</h4>
+		</div>
+		<div class="panel-body">
+			<div class="col-md-4 col-xs-12 col-sm-6 col-lg-4">
+				<img alt="User Pic" src="static/blankProfilePic.png" id="profile-image1" class="img-circle img-responsive"> 
+			</div>
+			<div class="col-md-8 col-xs-12 col-sm-6 col-lg-8" >
+				<div class="container" >
+					<h2>firstName}} LastName}}</h2>
+				</div>
+				<hr>
+				<ul class="container details" >
+					<li><p><i class="far fa-envelope"></i>&emsp;email}}</p></li>
+					<li><p><i class="far fa-star"></i>&emsp;skills}}</p></li>
+					<li><p><i class="fab fa-pagelines"></i>&emsp;favBiodiversity}}</p></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-lg-12 col-sm-12">
+	<div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+		<div class="btn-group" role="group">
+			<button type="button" id="feed" class="btn btn-primary" href="#newsFeed" data-toggle="tab">
+				<i class="far fa-newspaper"></i>
+				<div class="hidden-xs">News Feed</div>
+			</button>
+		</div>
+		<div class="btn-group" role="group">
+			<button type="button" id="favorites" class="btn btn-default" href="#favBlooms" data-toggle="tab">
+				<i class="fas fa-heart"></i>
+				<div class="hidden-xs">Favorite Blooms</div>
+			</button>
+		</div>
+		<div class="btn-group" role="group">
+			<button type="button" id="blooms" class="btn btn-default" href="#myBlooms" data-toggle="tab">
+				<i class="fas fa-tree"></i>
+				<div class="hidden-xs">My Blooms</div>
+			</button>
+		</div>
+	</div>
+	<div class="well">
+		<div class="tab-content">
+			<div class="tab-pane fade in active" id="newsFeed">
+				<h3>This where a user's news feed will appear</h3>
+			</div>
+			<div class="tab-pane fade in" id="favBlooms">
+				<h3>This is where a user's favorite Blooms will appear</h3>
+			</div>
+			<div class="tab-pane fade in" id="myBlooms">
+				<h3>This is where a user can see their own Blooms</h3>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>
+$(document).ready(function() {
+$(".btn-pref .btn").click(function () {
+    $(".btn-pref .btn").removeClass("btn-primary").addClass("btn-default");
+    // $(".tab").addClass("active"); // instead of this do the below 
+    $(this).removeClass("btn-default").addClass("btn-primary");   
+});
+});
+</script>
+

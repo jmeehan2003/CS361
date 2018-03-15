@@ -1,0 +1,46 @@
+{{> header }}
+
+<div class="container">
+	<h1><font color="brown"> Create a Personal Project </h1>
+	<font color="black">
+	<form id="personalproject" method="POST" action="/personalproject">
+	  <div class="form-row">
+    	    <div class="form-group col-md-6">
+      		<label for="inputPName">Project Name</label>
+      		<input type="text" class="form-control" id="inputPname" name="pname">
+    	    </div>
+    	    <div class="form-group col-md-6">
+      		<label for="inputPlocation">Project Location</label>
+      		<input type="text" class="form-control" id="inputPlocation" name="plocation" placeholder="Address, City or Zipcode">
+    	    </div>
+  	  </div>
+	  <div class="form-row"> 
+    	    <div class="form-group col-md-6">
+      		<label for="inputPinfo">Project Info</label>
+      		<input type="text" class="form-control" id="inputPinfo" name="pinfo">
+    	    </div>
+	        <div class="form-group col-md-6">
+      		<label for="recBlooms">Recommended Blooms</label>
+      		<select id="recBlooms" class="form-control" name="recBlooms">
+        		<option value="" selected="selected" disabled="disabled">Select...</option>
+      		</select>    
+            </div>
+        </div>
+    
+    <div>
+        <h3>Privacy Settings</h3>  
+          <input type="checkbox" name="displayname">Display User Name<br>
+          <input type="checkbox" name="displayemail">Display User Email<br>
+          <input type="checkbox" name="displayphone">Display User Phone<br>
+          <input type="checkbox" name="comments">Allow Comments<br>
+          <input type="checkbox" name="aafollowers">Auto Accept Followers<br>
+          <input type="checkbox" name="dfollowers">Deny Followers<br>
+    </div>
+    
+    <div>
+  	  <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+    
+    </form>
+</div>
+<br><br>
