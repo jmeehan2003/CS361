@@ -41,9 +41,10 @@ function validateAgainstDB(email, pswd, mySql, res, callback) {
       	var context = {};
       	getUserData(res, mySql, context, email, complete); 
 	getUserBlooms(res, mySql, context, email, complete);
+	getBiodiversity(res, mySql, context, complete);
 	function complete() {
 	callbackCount++;
-	if (callbackCount >= 2) {
+	if (callbackCount >= 3) {
 		console.log("Sending to profile page");
 	      res.render('profile', context);
 	}
@@ -92,6 +93,13 @@ function getUserData(res, mysql, context, key, complete) {
 		});
 }
 
+function getBiodiversity(res, mysql, context, complete){
+	mysql.pool.query("SELECT id, type FROM biodiversity", function(err, results, fields) {
+		if (err) throw err;
+		context.biotypes = results;
+		complete();
+	});
+}
 
 function getUserBlooms(res, mysql, context, key, complete) {
 	var sql = "SELECT name, details, DATE_FORMAT(date, '%m/%d/%Y') AS date, biodiversity.type AS biotype FROM blooms INNER JOIN biodiversity ON blooms.biotype = biodiversity.id INNER JOIN users ON blooms.userid = users.id WHERE users.email = ?";
