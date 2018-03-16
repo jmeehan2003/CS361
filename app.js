@@ -22,6 +22,8 @@ app.use('/search', require('./search.js'));
 
 app.use('/user', require('./user.js'));
 
+app.use('/searchBio', require('./searchBio.js'));
+
 app.use('/bloom', require('./bloom.js'));
 
 app.use('/login', require('./login.js'));

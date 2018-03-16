@@ -15,8 +15,12 @@
 				<div class="container" >
 					<h2>Welcome {{user.first_name}} {{user.last_name}}</h2>
 					<ul class="container details" >
+						{{#if user.skills}}
 						<li><p><i class="far fa-envelope"></i>Your skills: {{user.skills}}</p></li>
-						<li><p><i class="far fa-star"></i>Your favorite biodiveristy: {{user.biotype}}</p></li>
+						{{/if}}
+						{{#if user.biotype}}
+						<li><p><i class="far fa-star"></i>Your favorite biodiversity: {{user.biotype}}</p></li>
+						{{/if}}
 					</ul>
 				</div>
 				<hr>
@@ -27,12 +31,22 @@
 					</ul>
 				
 			</div>
-			<div>
-			<br><br>
-				<h3> Search for users or blooms</h3>
+			<div class="col-md-8">
+				<h3> Search for users or blooms by name</h3>
 				<form id="searchFull" action="/search" method="GET">
 					<input type="text" id="searchReq" name="searchVal">
-					<input id="searchSubmit" type="submit" value="submit">
+					<button type="submit" class="btn btn-primary">Search</button>
+				</form>
+	
+				<form id="searchBiotype" action="/searchBio" method="GET">
+				<h3>Or search by biodiversity category</h3>
+				<select id="searchBiotype" name="bio" width="160" style="width: 160px">
+					<option value="select" selected="selected" disabled="disabled"> Choose...</option>
+					{{#each biotypes}}
+					<option value="{{id}}">{{type}}</option>
+					{{/each}}
+				</select>
+				<button type="submit" class="btn btn-primary">Search</button>
 				</form>
 			</div>
 		</div>

@@ -1,7 +1,7 @@
 {{> header }}
 <div class=container>
 <h2><font color="brown"> Details for bloom: {{bloom.name}}</h2><font color="black">
-<div>
+<!-- <div>
 	<u1> 
 		<li> Category: {{bloom.biotype}} </li>
 		<li> Created on: {{bloom.date}} </li> 
@@ -9,32 +9,30 @@
 		<li> Details: {{bloom.details}} </li>
 		<li> Location: {{bloom.city}},  {{bloom.country}}</li>
 	</ul>
-</div>
+</div> -->
 
-<!-- <h3>{{user.first_name}}'s Current Blooms:</h3>
-{{#if blooms}}
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Created</th>
       <th scope="col">Category</th>
+      <th scope="col">Created On</th>
       <th scope="col">Name</th>
-      <th scope="col">Description</th>
+      <th scope="col">Details</th>
+      <th scope="col">Location</th>
+      <th scope="col">Created By</th>
     </tr>
   </thead>
   <tbody>
-    {{#each blooms}}
     <tr>
-      <th scope="row">{{date}}</th>
-      <td>{{biotype}}</td>
-      <td>{{name}}</td>
-      <td>{{details}}</td>
+      <th scope="row">{{bloom.biotype}}</th>
+      <td>{{bloom.date}}</td>
+      <td>{{bloom.details}}</td>
+      <td>{{bloom.city}}, {{bloom.country}}</td>
+      <td>{{bloom.details}}</td>
+      <td>{{bloom.username}}</td>
+      <td><a href="/user/{{bloom.userid}}"><button>See User Details</button></a></td>
     </tr>
-    {{/each}}
   </tbody>
 </table>
-{{else}}
-<p> This user hasn't created any blooms yet. Maybe you can send him a comment and sugget one! </p>
-{{/if}}-->
 <br>
 </div>
