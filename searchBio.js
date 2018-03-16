@@ -4,7 +4,7 @@ module.exports = function(){
 	var expressValidator = require('express-validator');
 
 function searchBloomByCategory(res, mysql, context, key, complete){
-var sql = "SELECT CONCAT(users.first_name, ' ', users.last_name) AS username, users.id AS userid, users.country AS country, users.city AS city, blooms.name, blooms.id AS id, details, DATE_FORMAT(date, '%m/%d/%Y') AS date FROM blooms INNER JOIN users ON blooms.userid = users.id INNER JOIN biodiversity ON blooms.biotype = biodiversity.id WHERE biodiversity.id = ?";
+var sql = "SELECT CONCAT(users.first_name, ' ', users.last_name) AS username, users.id AS userid, name, users.city AS city, users.country AS country, blooms.id AS id, details, DATE_FORMAT(date, '%m/%d/%Y') AS date FROM blooms INNER JOIN users ON blooms.userid = users.id INNER JOIN biodiversity ON blooms.biotype = biodiversity.id WHERE biodiversity.id = ?";
 var insert = [key];
 mysql.pool.query(sql, key, function(error, results, fields) {
 	if (error) {
