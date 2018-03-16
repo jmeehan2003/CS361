@@ -1,24 +1,25 @@
-{{> header }}
+{{> header }}
 
-<h1><font color="brown">Bloom, Terra Search Results</h1>
-<h2><font color="black">Your search for "{{searchWord}}" produced the following results:</h2>
+<h1>Bloom, Terra Search Results</h1>
+<h2>Your search for {{searchWord}} produced the following results:</h2>
 <br>
 <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Category</th>
-      <th scope="col">Name</th>
-      <th scope="col"></th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each search}}
-    <tr>
-      <th scope="row">{{Category}}</th>
-      <td>{{Name}}</td>
-      <td><a href="/{{Category}}/{{id}}"><button>More Details / Comment </button></a></td>
-    </tr>
-    {{/each}}
-  </tbody>
+	<thead>
+	<tr>
+	  <th scope="col">Category</th>
+	  <th scope="col">Name</th>
+	  <th scope="col">Details</th>
+	</tr>
+	</thead>
+	<tbody align="center">
+		{{#each search}}
+		<tr cellpadding="8">
+			<td>{{Category}}</td>
+			<td>{{Name}}</td>
+			<td>{{Details}}
+		</tr>
+		{{/each}}
+	</tbody>
 </table>
+<br>
 
