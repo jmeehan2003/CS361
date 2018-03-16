@@ -15,8 +15,9 @@
 				<div class="container" >
 					<h2>Welcome {{user.first_name}} {{user.last_name}}</h2>
 					<ul class="container details" >
+						<li><p id = "userEmail"><i class="far fa-envelope"></i> {{user.email}}</p></li>
 						{{#if user.skills}}
-						<li><p><i class="far fa-envelope"></i>Your skills: {{user.skills}}</p></li>
+						<li><p>Your skills: {{user.skills}}</p></li>
 						{{/if}}
 						
 						<!-- can't get it to work
@@ -27,7 +28,13 @@
 				<hr>
 					<h3> Let's start increasing the biodiversity out there! </h3>
 					<ul>
-						<li><p> Create a new Bloom!  <a href="/personalProject" class="btn btn-primary" role="button"><i class="fas fa-plus"></i></a></p>
+						<li><p> Create a new Bloom! 
+							<form action="/personalProject" method="POST">
+	 						<input type="hidden" name="useremail" value="{{user.email}}">
+	 						<button type="submit"><i class="fas fa-plus"></i></button>
+							</form>
+
+						</p></li>
 						<li><p> Create a Community Bloom(in a FUTURE RELEASE) </p>
 					</ul>
 				

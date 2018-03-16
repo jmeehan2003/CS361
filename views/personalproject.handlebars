@@ -2,6 +2,13 @@
 
 <div class="container">
 	<h1><font color="brown"> Create a Personal Project </h1>
+  {{#if errors}}
+    {{#each errors}}
+      <div class="alert alert-danger">
+      <p><font color="red"> {{this.msg}}  </p>
+      </div>
+    {{/each}}
+  {{/if}}
 	<font color="black">
 	<form id="personalproject" method="POST" action="/personalproject">
 	  <div class="form-row">
@@ -34,12 +41,12 @@
     
     <div>
         <h3>Privacy Settings</h3>  
-          <input type="checkbox" name="displayname">Display User Name<br>
-          <input type="checkbox" name="displayemail">Display User Email<br>
-          <input type="checkbox" name="displayphone">Display User Phone<br>
-          <input type="checkbox" name="comments">Allow Comments<br>
-          <input type="checkbox" name="aafollowers">Auto Accept Followers<br>
-          <input type="checkbox" name="dfollowers">Deny Followers<br>
+          <input type="checkbox" name="displayname" id="displayname">Display User Name<br>
+          <input type="checkbox" name="displayemail" id="displayemail">Display User Email<br>
+          <input type="checkbox" name="displayphone" id="displayphone">Display User Phone<br>
+          <input type="checkbox" name="comments" id="comments">Allow Comments<br>
+          <input type="checkbox" name="aafollowers" id="aafollowers">Auto Accept Followers<br>
+          <input type="checkbox" name="dfollowers" id="dfollowers">Deny Followers<br>
     </div>
     
     <div>
