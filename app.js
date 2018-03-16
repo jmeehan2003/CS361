@@ -42,6 +42,8 @@ app.use('/trending', require('./trending'));
 
 app.use('/map', require('./map'));
 
+app.use('/personalProject', require('./personalProject'));
+
 
 app.use(function(req,res){
   res.status(404);
